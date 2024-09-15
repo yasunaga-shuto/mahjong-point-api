@@ -1,0 +1,10 @@
+services:
+  api:
+    container_name: api
+    volumes:
+      - ./app:/app
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 8080:8080
