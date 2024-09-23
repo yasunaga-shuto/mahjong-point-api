@@ -40,8 +40,9 @@ def root(hand: Hand):
   win_tile = convert_str_to_tile(hand.win_tile)
   melds = None
   dora_indicators = []
-  # for d in hand.dora_indicators:
-  #   tile_num, tile_type = split_tile_str(d)
+  for d in hand.dora_indicators:
+    tile = convert_str_to_tile(d)
+    dora_indicators.append(tile)
 
   config = None
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
