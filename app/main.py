@@ -23,14 +23,22 @@ app.add_middleware(
 )
 
 @app.get("/")
-async def root(man: str, pin: str, sou: str, win_tile_str: str):
+def root(man: str, pin: str, sou: str, win_tile_str: str):
   print(man)
   tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou)
 
   win_tile = None
   # 数牌の場合
   if re.match(r'^[1-9]', win_tile_str):
-    win_tile = TilesConverter.string_to_136_array(sou=win_tile_str)[0]
+    tile_num = re.findall(r'^([1-9])', win_tile_str)[0]
+    tile_type = re.findall(r'^[1-9]([mps])', win_tile_str)[0]
+    match tile_type:
+      case 'm':
+        win_tile = TilesConverter.string_to_136_array(man=tile_num)[0]
+      case 'p':
+        win_tile = TilesConverter.string_to_136_array(pin=tile_num)[0]
+      case 's':
+        win_tile = TilesConverter.string_to_136_array(sou=tile_num)[0]
   else:
     match win_tile_str:
       case 'ton':
