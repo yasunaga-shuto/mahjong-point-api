@@ -25,6 +25,10 @@ app.add_middleware(
   allow_headers=["*"],
 )
 
+class HandMeld(BaseModel):
+  type: str
+  pai: List[str]
+
 class Hand(BaseModel):
   man: str
   pin: str
@@ -32,19 +36,31 @@ class Hand(BaseModel):
   honors: str
   win_tile: str
   dora_indicators: List[str]
+  melds: List[HandMeld] = None
 
 @app.post("/")
 def root(hand: Hand):
   tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
 
   win_tile = convert_str_to_tile(hand.win_tile)
-  melds = None
+  melds = []
+  # 鳴き
+  for m in hand.melds:
+    match m.type:
+      case 'chi':
+        chi_tiles = []
+        for p in m.pai:
+          tile = convert_str_to_tile(p)
+          chi_tiles.append(tile)
+        melds.append(Meld(meld_type=Meld.CHI, tiles=chi_tiles))
+
+  # ドラ
   dora_indicators = []
   for d in hand.dora_indicators:
     tile = convert_str_to_tile(d)
     dora_indicators.append(tile)
 
-  config = None
+  config = HandConfig(options=OptionalRules(has_open_tanyao=True, has_aka_dora=True))
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
 
