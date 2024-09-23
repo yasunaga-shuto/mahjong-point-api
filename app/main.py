@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
 from mahjong.hand_calculating.hand import HandCalculator
 from mahjong.tile import TilesConverter
 from mahjong.hand_calculating.hand_config import HandConfig, OptionalRules
@@ -8,6 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import re
+from pydantic import BaseModel
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 calculator = HandCalculator()
@@ -22,18 +25,19 @@ app.add_middleware(
   allow_headers=["*"],
 )
 
-@app.get("/")
-def root(
-  man: str,
-  pin: str,
-  sou: str,
-  honors: str,
-  win_tile_str: str,
-  dora: str,
-):
-  tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou, honors=honors, has_aka_dora=True)
+class Hand(BaseModel):
+  man: str
+  pin: str
+  sou: str
+  honors: str
+  win_tile_str: str
+  dora: List[str]
 
-  win_tile = get_win_tile(win_tile_str)
+@app.post("/")
+def root(hand: Hand):
+  tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
+
+  win_tile = get_win_tile(hand.win_tile_str)
   melds = None
   dora_indicators = [
     TilesConverter.string_to_136_array(man='r', has_aka_dora=True)[0],
@@ -79,3 +83,8 @@ def split_tile_str(tile_str: str):
   if has_aka:
     return 'r', tile_type
   return tile_num, tile_type
+
+@app.exception_handler(RequestValidationError)
+async def handler(request:Request, exc:RequestValidationError):
+    print(exc)
+    return JSONResponse(content={}, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
