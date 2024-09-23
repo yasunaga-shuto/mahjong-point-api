@@ -27,37 +27,42 @@ def root(man: str, pin: str, sou: str, win_tile_str: str):
   print(man)
   tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou)
 
-  win_tile = None
-  # 数牌の場合
-  if re.match(r'^[1-9]', win_tile_str):
-    tile_num = re.findall(r'^([1-9])', win_tile_str)[0]
-    tile_type = re.findall(r'^[1-9]([mps])', win_tile_str)[0]
-    match tile_type:
-      case 'm':
-        win_tile = TilesConverter.string_to_136_array(man=tile_num)[0]
-      case 'p':
-        win_tile = TilesConverter.string_to_136_array(pin=tile_num)[0]
-      case 's':
-        win_tile = TilesConverter.string_to_136_array(sou=tile_num)[0]
-  else:
-    match win_tile_str:
-      case 'ton':
-        win_tile = EAST
-      case 'nan':
-        win_tile = SOUTH
-      case 'sha':
-        win_tile = WEST
-      case 'pei':
-        win_tile = NORTH
-      case 'haku':
-        win_tile = HAKU
-      case 'hatsu':
-        win_tile = HATSU
-      case 'chun':
-        win_tile = CHUN
-
+  win_tile = get_win_tile(win_tile_str)
   melds = None
   dora_indicators = None
   config = None
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
+
+def get_win_tile(tile_str: str):
+  if re.match(r'^[1-9]', tile_str):
+    tile_num, tile_type = split_tile_str(tile_str)
+    match tile_type:
+      case 'm':
+        return TilesConverter.string_to_136_array(man=tile_num)[0]
+      case 'p':
+        return TilesConverter.string_to_136_array(pin=tile_num)[0]
+      case 's':
+        return TilesConverter.string_to_136_array(sou=tile_num)[0]
+  else:
+    match tile_str:
+      case 'ton':
+        return EAST
+      case 'nan':
+        return SOUTH
+      case 'sha':
+        return WEST
+      case 'pei':
+        return NORTH
+      case 'haku':
+        return HAKU
+      case 'hatsu':
+        return HATSU
+      case 'chun':
+        return CHUN
+
+# 1s ⇨ 1, sに分ける
+def split_tile_str(tile_str: str):
+  tile_num = re.findall(r'^([1-9])', win_tile_str)[0]
+  tile_type = re.findall(r'^[1-9]([mps])', win_tile_str)[0]
+  return tile_num, tile_type
