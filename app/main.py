@@ -36,14 +36,15 @@ def root(man: str, pin: str, sou: str, win_tile_str: str):
 
 def get_win_tile(tile_str: str):
   if re.match(r'^[1-9]', tile_str):
-    tile_num, tile_type = split_tile_str(tile_str)
+    tile_num, tile_type, has_aka = split_tile_str(tile_str)
+    print(has_aka)
     match tile_type:
       case 'm':
-        return TilesConverter.string_to_136_array(man=tile_num)[0]
+        return TilesConverter.string_to_136_array(man=tile_num, has_aka_dora=has_aka)[0]
       case 'p':
-        return TilesConverter.string_to_136_array(pin=tile_num)[0]
+        return TilesConverter.string_to_136_array(pin=tile_num, has_aka_dora=has_aka)[0]
       case 's':
-        return TilesConverter.string_to_136_array(sou=tile_num)[0]
+        return TilesConverter.string_to_136_array(sou=tile_num, has_aka_dora=has_aka)[0]
   else:
     match tile_str:
       case 'ton':
@@ -63,6 +64,7 @@ def get_win_tile(tile_str: str):
 
 # 1s ⇨ 1, sに分ける
 def split_tile_str(tile_str: str):
-  tile_num = re.findall(r'^([1-9])', win_tile_str)[0]
-  tile_type = re.findall(r'^[1-9]([mps])', win_tile_str)[0]
-  return tile_num, tile_type
+  tile_num = re.findall(r'^([1-9])', tile_str)[0]
+  tile_type = re.findall(r'^[1-9]([mps])', tile_str)[0]
+  has_aka = re.match(r'^[1-9][mps]Red', tile_str) != None
+  return tile_num, tile_type, has_aka
