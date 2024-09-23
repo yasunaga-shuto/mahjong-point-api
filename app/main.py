@@ -23,7 +23,14 @@ app.add_middleware(
 )
 
 @app.get("/")
-def root(man: str, pin: str, sou: str, honors: str, win_tile_str: str):
+def root(
+  man: str,
+  pin: str,
+  sou: str,
+  honors: str,
+  win_tile_str: str,
+  dora: str,
+):
   tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou, honors=honors, has_aka_dora=True)
 
   win_tile = get_win_tile(win_tile_str)
