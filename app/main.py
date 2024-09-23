@@ -23,26 +23,30 @@ app.add_middleware(
 )
 
 @app.get("/")
-def root(man: str, pin: str, sou: str, win_tile_str: str):
-  tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou)
+def root(man: str, pin: str, sou: str, honors: str, win_tile_str: str):
+  tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou, honors=honors, has_aka_dora=True)
 
   win_tile = get_win_tile(win_tile_str)
   melds = None
-  dora_indicators = None
+  dora_indicators = [
+    TilesConverter.string_to_136_array(man='r', has_aka_dora=True)[0],
+    TilesConverter.string_to_136_array(pin='r', has_aka_dora=True)[0],
+    TilesConverter.string_to_136_array(sou='r', has_aka_dora=True)[0],
+  ]
   config = None
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
 
 def get_win_tile(tile_str: str):
   if re.match(r'^[1-9]', tile_str):
-    tile_num, tile_type, has_aka = split_tile_str(tile_str)
+    tile_num, tile_type = split_tile_str(tile_str)
     match tile_type:
       case 'm':
-        return TilesConverter.string_to_136_array(man=tile_num, has_aka_dora=has_aka)[0]
+        return TilesConverter.string_to_136_array(man=tile_num, has_aka_dora=True)[0]
       case 'p':
-        return TilesConverter.string_to_136_array(pin=tile_num, has_aka_dora=has_aka)[0]
+        return TilesConverter.string_to_136_array(pin=tile_num, has_aka_dora=True)[0]
       case 's':
-        return TilesConverter.string_to_136_array(sou=tile_num, has_aka_dora=has_aka)[0]
+        return TilesConverter.string_to_136_array(sou=tile_num, has_aka_dora=True)[0]
   else:
     match tile_str:
       case 'ton':
@@ -65,4 +69,6 @@ def split_tile_str(tile_str: str):
   tile_num = re.findall(r'^([1-9])', tile_str)[0]
   tile_type = re.findall(r'^[1-9]([mps])', tile_str)[0]
   has_aka = re.match(r'^[1-9][mps]Red', tile_str) != None
-  return tile_num, tile_type, has_aka
+  if has_aka:
+    return 'r', tile_type
+  return tile_num, tile_type
