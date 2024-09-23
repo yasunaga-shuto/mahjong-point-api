@@ -24,7 +24,6 @@ app.add_middleware(
 
 @app.get("/")
 def root(man: str, pin: str, sou: str, win_tile_str: str):
-  print(man)
   tiles = TilesConverter.string_to_136_array(man=man, pin=pin, sou=sou)
 
   win_tile = get_win_tile(win_tile_str)
@@ -37,7 +36,6 @@ def root(man: str, pin: str, sou: str, win_tile_str: str):
 def get_win_tile(tile_str: str):
   if re.match(r'^[1-9]', tile_str):
     tile_num, tile_type, has_aka = split_tile_str(tile_str)
-    print(has_aka)
     match tile_type:
       case 'm':
         return TilesConverter.string_to_136_array(man=tile_num, has_aka_dora=has_aka)[0]
