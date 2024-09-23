@@ -53,6 +53,12 @@ def root(hand: Hand):
           tile = convert_str_to_tile(p)
           chi_tiles.append(tile)
         melds.append(Meld(meld_type=Meld.CHI, tiles=chi_tiles))
+      case 'pon':
+        pon_tiles = []
+        for p in m.pai:
+          tile = convert_str_to_tile(p)
+          pon_tiles.append(tile)
+        melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
 
   # ドラ
   dora_indicators = []
