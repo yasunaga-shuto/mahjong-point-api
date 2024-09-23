@@ -1,6 +1,6 @@
 services:
   api:
-    container_name: api
+    container_name: mahjong_api
     volumes:
       - ./app:/app
     build:
