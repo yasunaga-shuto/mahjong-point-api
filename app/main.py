@@ -62,19 +62,9 @@ def root(hand: Hand):
           pon_tiles.append(tile)
         melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
       case 'ankan':
-        num, t = split_tile_str(m.pai[1])
-        if num == '5' and hand.has_aka_dora:
-          match t:
-            case 'm':
-              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(man='r555', has_aka_dora=True), False))
-            case 'p':
-              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(pin='r555', has_aka_dora=True), False))
-            case 's':
-              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(sou='r555', has_aka_dora=True), False))
-        else:
-          tile = convert_str_to_tile(m.pai[1])
-          kan_tiles = [tile, tile, tile, tile]
-          melds.append(Meld(Meld.KAN, kan_tiles, False))
+        melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, False))
+      case 'kan':
+        melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, True))
 
   print(melds)
 
@@ -126,6 +116,21 @@ def split_tile_str(tile_str: str):
   if has_aka:
     return 'r', tile_type
   return tile_num[0], tile_type[0]
+
+def get_kan_tiles(tile_str: str, has_aka_dora: bool, open: bool):
+  tile_num, tile_type = split_tile_str(tile_str)
+  if tile_num == '5' and has_aka_dora:
+    match tile_type:
+      case 'm':
+        return Meld(Meld.KAN, TilesConverter.string_to_136_array(man='r555', has_aka_dora=True), open)
+      case 'p':
+        return Meld(Meld.KAN, TilesConverter.string_to_136_array(pin='r555', has_aka_dora=True), open)
+      case 's':
+        return Meld(Meld.KAN, TilesConverter.string_to_136_array(sou='r555', has_aka_dora=True), open)
+  else:
+    tile = convert_str_to_tile(tile_str)
+    kan_tiles = [tile, tile, tile, tile]
+    return Meld(Meld.KAN, kan_tiles, open)
 
 @app.exception_handler(RequestValidationError)
 async def handler(request:Request, exc:RequestValidationError):
