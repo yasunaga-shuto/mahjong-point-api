@@ -39,7 +39,7 @@ class Hand(BaseModel):
   melds: List[HandMeld] = None
   has_aka_dora: bool
   is_riichi: bool
-  # player_wind: str
+  player_wind: str
   # round_wind: str
 
 @app.post("/")
@@ -79,10 +79,22 @@ def root(hand: Hand):
 
   config = HandConfig(
     is_riichi=hand.is_riichi,
+    player_wind=convert_wind(hand.player_wind),
     options=OptionalRules(has_open_tanyao=True, has_aka_dora=True),
   )
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
+
+def convert_wind(wind_str: str):
+  match wind_str:
+    case 'ton':
+      return EAST
+    case 'nan':
+      return SOUTH
+    case 'sha':
+      return WEST
+    case 'pei':
+      return NORTH
 
 def convert_str_to_tile(tile_str: str):
   tile_num, tile_type = split_tile_str(tile_str)
