@@ -43,6 +43,7 @@ class Hand(BaseModel):
   is_tsumo: bool
   is_ippatsu: bool
   is_chankan: bool
+  is_rinshan: bool
   player_wind: str
   round_wind: str
 
@@ -87,6 +88,7 @@ def root(hand: Hand):
     is_tsumo=hand.is_tsumo,
     is_ippatsu=hand.is_ippatsu,
     is_chankan=hand.is_chankan,
+    is_rinshan=hand.is_rinshan,
     player_wind=convert_wind(hand.player_wind),
     round_wind=convert_wind(hand.round_wind),
     options=OptionalRules(has_open_tanyao=True, has_aka_dora=True),
