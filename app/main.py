@@ -38,6 +38,9 @@ class Hand(BaseModel):
   dora_indicators: List[str]
   melds: List[HandMeld] = None
   has_aka_dora: bool
+  is_riichi: bool
+  # player_wind: str
+  # round_wind: str
 
 @app.post("/")
 def root(hand: Hand):
@@ -74,7 +77,10 @@ def root(hand: Hand):
     tile = convert_str_to_tile(d)
     dora_indicators.append(tile)
 
-  config = HandConfig(options=OptionalRules(has_open_tanyao=True, has_aka_dora=True))
+  config = HandConfig(
+    is_riichi=hand.is_riichi,
+    options=OptionalRules(has_open_tanyao=True, has_aka_dora=True),
+  )
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
 
