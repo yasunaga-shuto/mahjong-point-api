@@ -37,6 +37,7 @@ class Hand(BaseModel):
   win_tile: str
   dora_indicators: List[str]
   melds: List[HandMeld] = None
+  has_aka_dora: bool
 
 @app.post("/")
 def root(hand: Hand):
@@ -61,11 +62,21 @@ def root(hand: Hand):
           pon_tiles.append(tile)
         melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
       case 'ankan':
-        tile = convert_str_to_tile(m.pai[1])
-        kan_tiles = [tile, tile, tile, tile]
-        melds.append(Meld(Meld.KAN, kan_tiles, False))
+        num, t = split_tile_str(m.pai[1])
+        if num == '5' and hand.has_aka_dora:
+          match t:
+            case 'm':
+              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(man='r555', has_aka_dora=True), False))
+            case 'p':
+              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(pin='r555', has_aka_dora=True), False))
+            case 's':
+              melds.append(Meld(Meld.KAN, TilesConverter.string_to_136_array(sou='r555', has_aka_dora=True), False))
+        else:
+          tile = convert_str_to_tile(m.pai[1])
+          kan_tiles = [tile, tile, tile, tile]
+          melds.append(Meld(Meld.KAN, kan_tiles, False))
 
-  # print(melds)
+  print(melds)
 
   # ドラ
   dora_indicators = []
