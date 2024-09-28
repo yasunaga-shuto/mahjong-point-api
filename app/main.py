@@ -41,6 +41,7 @@ class Hand(BaseModel):
 @app.post("/")
 def root(hand: Hand):
   tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
+  print(hand)
 
   win_tile = convert_str_to_tile(hand.win_tile)
   melds = []
@@ -59,6 +60,12 @@ def root(hand: Hand):
           tile = convert_str_to_tile(p)
           pon_tiles.append(tile)
         melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
+      case 'ankan':
+        tile = convert_str_to_tile(m.pai[1])
+        kan_tiles = [tile, tile, tile, tile]
+        melds.append(Meld(Meld.KAN, kan_tiles, False))
+
+  # print(melds)
 
   # ドラ
   dora_indicators = []
