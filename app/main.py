@@ -39,6 +39,7 @@ class Hand(BaseModel):
   melds: List[HandMeld] = None
   has_aka_dora: bool
   is_riichi: bool
+  is_tsumo: bool
   player_wind: str
   round_wind: str
 
@@ -79,6 +80,7 @@ def root(hand: Hand):
 
   config = HandConfig(
     is_riichi=hand.is_riichi,
+    is_tsumo=hand.is_tsumo,
     player_wind=convert_wind(hand.player_wind),
     round_wind=convert_wind(hand.round_wind),
     options=OptionalRules(has_open_tanyao=True, has_aka_dora=True),
