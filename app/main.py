@@ -46,6 +46,7 @@ class Hand(BaseModel):
   is_chankan: bool
   is_rinshan: bool
   is_haitei: bool
+  is_houtei: bool
   is_tenhou: bool
   player_wind: str
   round_wind: str
@@ -93,6 +94,7 @@ def root(hand: Hand):
     is_chankan=hand.is_chankan,
     is_rinshan=hand.is_rinshan,
     is_haitei=hand.is_haitei,
+    is_houtei=hand.is_houtei,
     is_tenhou=hand.is_tenhou,
     player_wind=convert_wind(hand.player_wind),
     round_wind=convert_wind(hand.round_wind),
