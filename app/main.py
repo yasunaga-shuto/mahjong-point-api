@@ -38,6 +38,7 @@ class Hand(BaseModel):
   dora_indicators: List[str]
   melds: List[HandMeld] = None
   has_aka_dora: bool
+  kiriage: bool
   is_riichi: bool
   is_daburu_riichi: bool
   is_tsumo: bool
@@ -95,7 +96,7 @@ def root(hand: Hand):
     is_tenhou=hand.is_tenhou,
     player_wind=convert_wind(hand.player_wind),
     round_wind=convert_wind(hand.round_wind),
-    options=OptionalRules(has_open_tanyao=True, has_aka_dora=True),
+    options=OptionalRules(has_open_tanyao=True, has_aka_dora=True, kiriage=hand.kiriage),
   )
   result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
   return result
