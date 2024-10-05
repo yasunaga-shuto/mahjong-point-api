@@ -48,6 +48,8 @@ class Hand(BaseModel):
   is_haitei: bool
   is_houtei: bool
   is_tenhou: bool
+  is_chiihou: bool
+  is_renhou: bool
   player_wind: str
   round_wind: str
 
@@ -96,6 +98,8 @@ def root(hand: Hand):
     is_haitei=hand.is_haitei,
     is_houtei=hand.is_houtei,
     is_tenhou=hand.is_tenhou,
+    is_chiihou=hand.is_chiihou,
+    is_renhou=hand.is_renhou,
     player_wind=convert_wind(hand.player_wind),
     round_wind=convert_wind(hand.round_wind),
     options=OptionalRules(has_open_tanyao=True, has_aka_dora=True, kiriage=hand.kiriage),
