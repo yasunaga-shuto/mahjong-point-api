@@ -106,13 +106,13 @@ def root(hand: Hand):
 def convert_wind(wind_str: str):
   match wind_str:
     case 'ton':
-      return EAST
+      return TilesConverter.string_to_136_array(honors='1', has_aka_dora=True)[0]
     case 'nan':
-      return SOUTH
+      return TilesConverter.string_to_136_array(honors='2', has_aka_dora=True)[0]
     case 'sha':
-      return WEST
+      return TilesConverter.string_to_136_array(honors='3', has_aka_dora=True)[0]
     case 'pei':
-      return NORTH
+      return TilesConverter.string_to_136_array(honors='4', has_aka_dora=True)[0]
 
 def convert_str_to_tile(tile_str: str):
   tile_num, tile_type = split_tile_str(tile_str)
@@ -124,19 +124,19 @@ def convert_str_to_tile(tile_str: str):
     case 's':
       return TilesConverter.string_to_136_array(sou=tile_num, has_aka_dora=True)[0]
     case 'ton':
-      return EAST
+      return TilesConverter.string_to_136_array(honors='1', has_aka_dora=True)[0]
     case 'nan':
-      return SOUTH
+      return TilesConverter.string_to_136_array(honors='2', has_aka_dora=True)[0]
     case 'sha':
-      return WEST
+      return TilesConverter.string_to_136_array(honors='3', has_aka_dora=True)[0]
     case 'pei':
-      return NORTH
+      return TilesConverter.string_to_136_array(honors='4', has_aka_dora=True)[0]
     case 'haku':
-      return HAKU
+      return TilesConverter.string_to_136_array(honors='5', has_aka_dora=True)[0]
     case 'hatsu':
-      return HATSU
+      return TilesConverter.string_to_136_array(honors='6', has_aka_dora=True)[0]
     case 'chun':
-      return CHUN
+      return TilesConverter.string_to_136_array(honors='7', has_aka_dora=True)[0]
 
 # 1s ⇨ 1, sに分ける
 def split_tile_str(tile_str: str):
