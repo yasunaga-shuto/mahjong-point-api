@@ -106,13 +106,13 @@ def root(hand: Hand):
 def convert_wind(wind_str: str):
   match wind_str:
     case 'ton':
-      return TilesConverter.string_to_136_array(honors='1', has_aka_dora=True)[0]
+      return EAST
     case 'nan':
-      return TilesConverter.string_to_136_array(honors='2', has_aka_dora=True)[0]
+      return SOUTH
     case 'sha':
-      return TilesConverter.string_to_136_array(honors='3', has_aka_dora=True)[0]
+      return WEST
     case 'pei':
-      return TilesConverter.string_to_136_array(honors='4', has_aka_dora=True)[0]
+      return NORTH
 
 def convert_str_to_tile(tile_str: str):
   tile_num, tile_type = split_tile_str(tile_str)
