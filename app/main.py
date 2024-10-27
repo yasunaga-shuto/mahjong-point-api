@@ -12,17 +12,17 @@ from typing import List
 import re
 
 app = FastAPI()
-# calculator = HandCalculator()
-# origins = [
-#   "http://localhost:3000",
-# ]
-# app.add_middleware(
-#   CORSMiddleware,
-#   allow_origins=origins,
-#   allow_credentials=True,
-#   allow_methods=["*"],
-#   allow_headers=["*"],
-# )
+calculator = HandCalculator()
+origins = [
+  "http://localhost:3000",
+]
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=origins,
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
 
 # class HandMeld(BaseModel):
 #   type: str
