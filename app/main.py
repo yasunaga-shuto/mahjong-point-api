@@ -53,6 +53,9 @@ class Hand(BaseModel):
   player_wind: str
   round_wind: str
 
+HandMeld.update_forward_refs()
+Hand.update_forward_refs()
+
 @app.post("/")
 def root(hand: Hand):
   tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
