@@ -25,39 +25,36 @@ app.add_middleware(
   allow_headers=["*"],
 )
 
-class HandMeld(BaseModel):
-  type: str
-  pai: List[str]
+# class HandMeld(BaseModel):
+#   type: str
+#   pai: List[str]
 
-class Hand(BaseModel):
-  man: str
-  pin: str
-  sou: str
-  honors: str
-  win_tile: str
-  dora_indicators: List[str]
-  melds: List[HandMeld] = None
-  has_aka_dora: bool
-  kiriage: bool
-  is_riichi: bool
-  is_daburu_riichi: bool
-  is_tsumo: bool
-  is_ippatsu: bool
-  is_chankan: bool
-  is_rinshan: bool
-  is_haitei: bool
-  is_houtei: bool
-  is_tenhou: bool
-  is_chiihou: bool
-  is_renhou: bool
-  player_wind: str
-  round_wind: str
-
-HandMeld.update_forward_refs()
-Hand.update_forward_refs()
+# class Hand(BaseModel):
+#   man: str
+#   pin: str
+#   sou: str
+#   honors: str
+#   win_tile: str
+#   dora_indicators: List[str]
+#   melds: List[HandMeld] = None
+#   has_aka_dora: bool
+#   kiriage: bool
+#   is_riichi: bool
+#   is_daburu_riichi: bool
+#   is_tsumo: bool
+#   is_ippatsu: bool
+#   is_chankan: bool
+#   is_rinshan: bool
+#   is_haitei: bool
+#   is_houtei: bool
+#   is_tenhou: bool
+#   is_chiihou: bool
+#   is_renhou: bool
+#   player_wind: str
+#   round_wind: str
 
 @app.post("/")
-def root(hand: Hand):
+def root(hand):
   tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
   print(hand)
 
