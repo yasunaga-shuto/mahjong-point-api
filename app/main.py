@@ -54,58 +54,57 @@ class Hand(BaseModel):
 
 @app.post("/")
 def root():
-  return {}
-  # tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
-  # print(hand)
+  tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
+  print(hand)
 
-  # win_tile = convert_str_to_tile(hand.win_tile)
-  # melds = []
-  # # 鳴き
-  # for m in hand.melds:
-  #   match m.type:
-  #     case 'chi':
-  #       chi_tiles = []
-  #       for p in m.pai:
-  #         tile = convert_str_to_tile(p)
-  #         chi_tiles.append(tile)
-  #       melds.append(Meld(meld_type=Meld.CHI, tiles=chi_tiles))
-  #     case 'pon':
-  #       pon_tiles = []
-  #       for p in m.pai:
-  #         tile = convert_str_to_tile(p)
-  #         pon_tiles.append(tile)
-  #       melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
-  #     case 'ankan':
-  #       melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, False))
-  #     case 'kan':
-  #       melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, True))
+  win_tile = convert_str_to_tile(hand.win_tile)
+  melds = []
+  # 鳴き
+  for m in hand.melds:
+    match m.type:
+      case 'chi':
+        chi_tiles = []
+        for p in m.pai:
+          tile = convert_str_to_tile(p)
+          chi_tiles.append(tile)
+        melds.append(Meld(meld_type=Meld.CHI, tiles=chi_tiles))
+      case 'pon':
+        pon_tiles = []
+        for p in m.pai:
+          tile = convert_str_to_tile(p)
+          pon_tiles.append(tile)
+        melds.append(Meld(meld_type=Meld.PON, tiles=pon_tiles))
+      case 'ankan':
+        melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, False))
+      case 'kan':
+        melds.append(get_kan_tiles(m.pai[1], hand.has_aka_dora, True))
 
-  # print(melds)
+  print(melds)
 
-  # # ドラ
-  # dora_indicators = []
-  # for d in hand.dora_indicators:
-  #   tile = convert_str_to_tile(d)
-  #   dora_indicators.append(tile)
+  # ドラ
+  dora_indicators = []
+  for d in hand.dora_indicators:
+    tile = convert_str_to_tile(d)
+    dora_indicators.append(tile)
 
-  # config = HandConfig(
-  #   is_riichi=hand.is_riichi,
-  #   is_daburu_riichi=hand.is_daburu_riichi,
-  #   is_tsumo=hand.is_tsumo,
-  #   is_ippatsu=hand.is_ippatsu,
-  #   is_chankan=hand.is_chankan,
-  #   is_rinshan=hand.is_rinshan,
-  #   is_haitei=hand.is_haitei,
-  #   is_houtei=hand.is_houtei,
-  #   is_tenhou=hand.is_tenhou,
-  #   is_chiihou=hand.is_chiihou,
-  #   is_renhou=hand.is_renhou,
-  #   player_wind=convert_wind(hand.player_wind),
-  #   round_wind=convert_wind(hand.round_wind),
-  #   options=OptionalRules(has_open_tanyao=True, has_aka_dora=True, kiriage=hand.kiriage),
-  # )
-  # result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
-  # return result
+  config = HandConfig(
+    is_riichi=hand.is_riichi,
+    is_daburu_riichi=hand.is_daburu_riichi,
+    is_tsumo=hand.is_tsumo,
+    is_ippatsu=hand.is_ippatsu,
+    is_chankan=hand.is_chankan,
+    is_rinshan=hand.is_rinshan,
+    is_haitei=hand.is_haitei,
+    is_houtei=hand.is_houtei,
+    is_tenhou=hand.is_tenhou,
+    is_chiihou=hand.is_chiihou,
+    is_renhou=hand.is_renhou,
+    player_wind=convert_wind(hand.player_wind),
+    round_wind=convert_wind(hand.round_wind),
+    options=OptionalRules(has_open_tanyao=True, has_aka_dora=True, kiriage=hand.kiriage),
+  )
+  result = calculator.estimate_hand_value(tiles, win_tile, melds, dora_indicators, config)
+  return result
 
 def convert_wind(wind_str: str):
   match wind_str:
