@@ -7,9 +7,9 @@ from mahjong.tile import TilesConverter
 from mahjong.hand_calculating.hand_config import HandConfig, OptionalRules
 from mahjong.meld import Meld
 from mahjong.constants import EAST, SOUTH, WEST, NORTH, HAKU, HATSU, CHUN, FIVE_RED_MAN
-# from pydantic import BaseModel
-# from typing import List
-# import re
+from pydantic import BaseModel
+from typing import List
+import re
 
 app = FastAPI()
 # calculator = HandCalculator()
