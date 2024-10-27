@@ -53,7 +53,7 @@ app = FastAPI()
 #   round_wind: str
 
 @app.post("/")
-def root(hand):
+def root():
   return {}
   # tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
   # print(hand)
