@@ -52,7 +52,7 @@ class Hand(BaseModel):
   round_wind: str
 
 @app.post("/")
-def root():
+def root(hand: Hand):
   tiles = TilesConverter.string_to_136_array(man=hand.man, pin=hand.pin, sou=hand.sou, honors=hand.honors, has_aka_dora=True)
   print(hand)
 
