@@ -15,6 +15,7 @@ app = FastAPI()
 calculator = HandCalculator()
 origins = [
   "http://localhost:3000",
+  "https://mahjong-point-front.vercel.app/",
 ]
 app.add_middleware(
   CORSMiddleware,
