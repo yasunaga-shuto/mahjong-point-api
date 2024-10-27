@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+# from fastapi.exceptions import RequestValidationError
+# from fastapi.responses import JSONResponse
 from mahjong.hand_calculating.hand import HandCalculator
 from mahjong.tile import TilesConverter
 from mahjong.hand_calculating.hand_config import HandConfig, OptionalRules
@@ -172,7 +172,7 @@ def root():
 #     kan_tiles = [tile, tile, tile, tile]
 #     return Meld(Meld.KAN, kan_tiles, open)
 
-@app.exception_handler(RequestValidationError)
-async def handler(request:Request, exc:RequestValidationError):
-    print(exc)
-    return JSONResponse(content={}, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+# @app.exception_handler(RequestValidationError)
+# async def handler(request:Request, exc:RequestValidationError):
+#     print(exc)
+#     return JSONResponse(content={}, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
