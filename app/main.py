@@ -152,7 +152,7 @@ def split_tile_str(tile_str: str):
 
   has_aka = re.match(r'^[1-9][mps]Red', tile_str) != None
   if has_aka:
-    return 'r', tile_type
+    return 'r', tile_type[0]
   return tile_num[0], tile_type[0]
 
 def get_kan_tiles(tile_str: str, has_aka_dora: bool, open: bool):
